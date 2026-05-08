@@ -1,114 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}Formulario - Flask Supabase App{% endblock %}
-
 {% block content %}
-<h1>📝 Crear Nuevo Item</h1>
+<form method="post">
+    Nombre:
+    <input name="nombre" value="{{usuario[1] if usuario else ''}}">
+    <br>
 
-<div class="card">
-    <form id="itemForm">
-        <div class="form-group">
-            <label for="name">Nombre *</label>
-            <input 
-                type="text" 
-                id="name" 
-                name="name" 
-                placeholder="Ingresa el nombre del item"
-                required
-                minlength="3"
-            >
-        </div>
+    Email:
+    <input name="activo" value="{{usuario[2] if usuario else ''}}">
+    <br>
 
-        <div class="form-group">
-            <label for="description">Descripción *</label>
-            <textarea 
-                id="description" 
-                name="description" 
-                placeholder="Ingresa una descripción detallada"
-                required
-                minlength="5"
-            ></textarea>
-        </div>
+    <button type="submit">Guardar</button>
+</form>
 
-        <div style="display: flex; gap: 1rem; justify-content: center;">
-            <button type="submit" class="btn btn-success" style="font-size: 1rem; padding: 0.75rem 2rem;">
-                ✅ Guardar Item
-            </button>
-            <a href="/" class="btn btn-primary" style="font-size: 1rem; padding: 0.75rem 2rem;">
-                ← Volver al Inicio
-            </a>
-        </div>
-    </form>
-
-    <div id="successMessage" class="alert alert-success" style="display: none; margin-top: 1rem;">
-        ✅ Item creado exitosamente!
-    </div>
-
-    <div id="errorMessage" class="alert alert-error" style="display: none; margin-top: 1rem;">
-        ❌ Error al crear el item. Por favor intenta de nuevo.
-    </div>
-</div>
-
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    document.getElementById('itemForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const formData = {
-            name: document.getElementById('name').value,
-            description: document.getElementById('description').value
-        };
-
-        try {
-            const response = await fetch('/api/items', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                document.getElementById('successMessage').style.display = 'block';
-                document.getElementById('errorMessage').style.display = 'none';
-                document.getElementById('itemForm').reset();
-
-                // Redirigir después de 2 segundos
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 2000);
-            } else {
-                document.getElementById('errorMessage').style.display = 'block';
-                document.getElementById('errorMessage').textContent = '❌ Error: ' + (data.error || 'Intenta de nuevo');
-                document.getElementById('successMessage').style.display = 'none';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            document.getElementById('errorMessage').style.display = 'block';
-            document.getElementById('errorMessage').textContent = '❌ Error de conexión. Por favor intenta de nuevo.';
-            document.getElementById('successMessage').style.display = 'none';
-        }
-    });
-
-    // Validación en tiempo real
-    document.getElementById('name').addEventListener('input', function() {
-        if (this.value.length < 3) {
-            this.style.borderColor = '#ff6b6b';
-        } else {
-            this.style.borderColor = '#51cf66';
-        }
-    });
-
-    document.getElementById('description').addEventListener('input', function() {
-        if (this.value.length < 5) {
-            this.style.borderColor = '#ff6b6b';
-        } else {
-            this.style.borderColor = '#51cf66';
-        }
-    });
-</script>
+<a href="/">Volver</a>
 {% endblock %}

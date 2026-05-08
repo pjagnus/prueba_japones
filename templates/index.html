@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="/nuevo">Nuevo usuario</a>
+
+<ul>
+{% for u in usuarios %}
+    <li>
+        {{u[1]}} - {{u[2]}}
+        <a href="/editar/{{u[0]}}">Editar</a>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}

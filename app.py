@@ -1,67 +1,66 @@
-from flask import Flask, render_template, request, jsonify
-from db import get_supabase_client
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
+from flask import Flask, render_template, request, redirect, url_for
+from db import get_conn
 
 app = Flask(__name__)
-supabase = get_supabase_client()
 
-@app.route('/')
+
+@app.route("/")
 def index():
-    """Página principal - Dashboard"""
-    try:
-        # Obtener datos de la tabla (ajusta el nombre según tu BD)
-        response = supabase.table('items').select('*').execute()
-        items = response.data if response.data else []
-        return render_template('index.html', items=items)
-    except Exception as e:
-        print(f"Error: {e}")
-        return render_template('index.html', items=[])
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT id, nombre, activo FROM usuarios ORDER BY id;")
+    usuarios = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template("index.html", usuarios=usuarios)
 
-@app.route('/form')
-def form_page():
-    """Página del formulario"""
-    return render_template('form.html')
 
-@app.route('/api/items', methods=['GET'])
-def get_items():
-    """API para obtener todos los items"""
-    try:
-        response = supabase.table('items').select('*').execute()
-        return jsonify({'success': True, 'data': response.data})
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
+@app.route("/nuevo", methods=["GET", "POST"])
+def nuevo():
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        activo = request.form["activo"]
 
-@app.route('/api/items', methods=['POST'])
-def create_item():
-    """API para crear un nuevo item"""
-    try:
-        data = request.get_json()
-        response = supabase.table('items').insert(data).execute()
-        return jsonify({'success': True, 'data': response.data})
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute(
+            "INSERT INTO usuarios (id,nombre, activo) VALUES (%s, %s, %s)",
+            (112, nombre, activo)
+        )
+        conn.commit()
+        cur.close()
+        conn.close()
 
-@app.route('/api/items/<int:item_id>', methods=['PUT'])
-def update_item(item_id):
-    """API para actualizar un item"""
-    try:
-        data = request.get_json()
-        response = supabase.table('items').update(data).eq('id', item_id).execute()
-        return jsonify({'success': True, 'data': response.data})
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
+        return redirect(url_for("index"))
 
-@app.route('/api/items/<int:item_id>', methods=['DELETE'])
-def delete_item(item_id):
-    """API para eliminar un item"""
-    try:
-        response = supabase.table('items').delete().eq('id', item_id).execute()
-        return jsonify({'success': True, 'message': 'Item eliminado'})
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
+    return render_template("form.html", usuario=None)
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+
+@app.route("/editar/<int:id>", methods=["GET", "POST"])
+def editar(id):
+    conn = get_conn()
+    cur = conn.cursor()
+
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        activo = request.form["activo"]
+
+        cur.execute(
+            "UPDATE usuarios SET nombre=%s, activo=%s WHERE id=%s",
+            (nombre, activo, id)
+        )
+        conn.commit()
+        cur.close()
+        conn.close()
+        return redirect(url_for("index"))
+
+    cur.execute("SELECT id, nombre, activo FROM usuarios WHERE id=%s", (id,))
+    usuario = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    return render_template("form.html", usuario=usuario)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
