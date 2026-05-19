@@ -1,0 +1,37 @@
+.mystyle {
+    font-size: 10pt; 
+    font-family: Arial;
+    border-collapse: collapse; 
+    border: 1px solid silver;
+}
+
+.mystyle td, th {
+    padding: 5px;
+    valign:center;
+}
+
+.mystyle tr:nth-child(even) {
+    background:  #caf4df;
+}
+
+.mystyle tr:hover {
+    background: silver;
+    cursor: pointer;
+}
+
+label {
+ font-size: 12px;
+ }
+ul {
+ font-size: 14px;
+ }
+ h3 {
+ font-size: 15px;
+ }
+  h4 {
+ font-color: 'red';
+ }
+ option {
+ font-size: 12px;
+ }
+ 

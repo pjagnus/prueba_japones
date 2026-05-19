@@ -1,0 +1,26 @@
+<style type="text/css">
+        .claseTabla {
+            width: 500px;
+            border-collapse: collapse;
+        }
+ 
+            .claseTabla td {
+                border: 1px solid black;
+            }
+ 
+
+                .claseTabla td:nth-child(even) {
+                    background-color: #effafc;
+                }
+ 
+                .claseTabla td:nth-child(odd) {
+                    background-color: #dce4e6;
+                }
+ 
+            .claseTabla tr:first-child td {
+                text-align: center;
+                font-weight: bolder;
+                background-color: #4BA7B6;
+                color: black;
+            }
+</style>

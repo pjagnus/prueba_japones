@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post">
+    Nombre:
+    <input name="nombre" value="{{integrante[1] if integrante else ''}}">
+    <br>
+
+    Parentesco :
+    <input name="parentesco" value="{{usuario[2] if usuario else ''}}">
+    <br>
+
+    F. Nacimiento :
+    <input name="fecNac" value="{{usuario[3] if usuario else ''}}">
+    <br>
+    
+    Domicilio:
+    <input name="domicilio" value="{{usuario[4] if usuario else ''}}">
+    <br>
+    
+    <input name="grupo" value="{{grupo}}" hidden=True>
+    <br>
+    
+    <button type="submit">Guardar</button>
+</form>
+
+<a href="/">Volver</a>
+{% endblock %}

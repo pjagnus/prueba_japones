@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="/nuevoGrupo">Nuevo Grupo</a>
+
+{% if grupos != [] %}
+    <table class="claseTabla">
+    <tbody>
+    <tr><td>&nbsp;&nbsp;&nbsp;Grupo Nro</td><td>Accion</td></tr>		
+    {% for dato in grupos %}
+    <tr class="altRow">
+    <td align="center">&nbsp;{{ dato[0]}}&nbsp;    </td>
+    <td><a href="{{ url_for('integrantes', id = dato[0]) }} "> Integrantes</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    {% endif %}		
+
+
+
+{% endblock %}
