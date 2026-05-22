@@ -1,26 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<a href="{{ url_for('nuevoIntegrante', id = grupo) }} ">Nuevo Integrante</a>
-<br>
 Grupo Nro {{grupo}}
 <br>
 {% if integrantes != [] %}
     <table class="claseTabla">
     <tbody>
-    <tr><td>&nbsp;&nbsp;&nbsp;Nombre y Apellido</td><td>Parentesco</td><td>F. Nac</td><td>domicilio</td><td>Accion</td></tr>		
-    {% for dato in integrantes %}
-        <tr class="altRow">
-        <td align="center">&nbsp;{{ dato[0]}}&nbsp;    </td>
-        <td><a href="{{ url_for('modificarGrupo', id = dato[0]) }} "> Integrantes</a></td>
-        </tr>
-    {% endfor %}
+        <tr><td>&nbsp;&nbsp;&nbsp;Nombre y Apellido</td><td>Parentesco</td><td>F. Nac</td><td>domicilio</td><td>Accion</td></tr>		
+        {% for dato in integrantes %}
+            <tr class="altRow">
+                <td align="center">&nbsp;{{ dato[1]}}&nbsp;    </td>
+                <td>
+                {% if (dato[2] == 1) %}  Jefe {% endif  %}
+                {% if (dato[2] == 2) %}  Esposa {% endif  %}
+                {% if (dato[2] == 3) %}  Hijo {% endif  %}
+                </td>
+                <td>{{ dato[3]}} </td>
+                <td>{{ dato[4]}} </td>
+                <td><a href="{{ url_for('modificarIntegrante', id = dato[0]) }} "> Modificar </a></td>
+            </tr>
+        {% endfor %}
     </tbody>
     </table>
-{% else %}		    
-    El Grupo Todavia no tiene integrantes
+{% else %}		
+    <br>    
+    <b>El Grupo todavia no tiene integrantes</b>
+    <br>
+    <br>
 {% endif %}		
 
-
+<a href="{{ url_for('nuevoIntegrante', id = grupo) }} ">Nuevo Integrante</a>
+<br>
 
 {% endblock %}

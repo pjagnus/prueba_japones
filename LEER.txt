@@ -1,0 +1,6 @@
+## desde esta carpeta
+git add .
+git commit -m "Actualización menu bootstrap"
+git push origin main
+
+#esperar unos minutos

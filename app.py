@@ -72,7 +72,7 @@ def socios():
 
 @app.route("/consultas", methods=["GET", "POST"])
 def consultas():
-    return redirect(url_for("index"))
+    return render_template("consultas.html")
 
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar(id):
@@ -113,7 +113,7 @@ def modificarGrupo(id):
 def integrantes(id):
     conn = get_conn()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM socios where grupo =%s", (id,))
+    cur.execute("SELECT id, nombre, parentesco, fecha_nac, domicilio FROM socios where grupo =%s", (id,))
     integrantes = cur.fetchall()
     cur.close()
     conn.close()
@@ -132,9 +132,17 @@ def nuevoIntegrante(id):
 
         conn = get_conn()
         cur = conn.cursor()
+        sql = "select max(id) from socios"
+        cur.execute(sql)
+        dato = cur.fetchone()
+        if dato[0] is None:
+            prox = 1
+        else:    
+            prox = dato[0] + 1
+        
         cur.execute(
             "INSERT INTO socios (id, nombre, parentesco, fecha_nac, domicilio, grupo) VALUES (%s, %s, %s, %s, %s, %s)",
-            (1, nombre, parentesco, fecNac, domicilio, grupo)
+            (prox, nombre, parentesco, fecNac, domicilio, grupo)
         )
         conn.commit()
         cur.close()
@@ -144,6 +152,32 @@ def nuevoIntegrante(id):
 
     return render_template("formIntegrante.html", grupo=id)
   
+
+@app.route("/modificarIntegrante/<int:id>", methods=["GET", "POST"])
+def modificarIntegrante(id):
+    conn = get_conn()
+    cur = conn.cursor()
+
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        parentesco = request.form["parentesco"]
+
+        cur.execute(
+            "UPDATE socios SET nombre=%s, parentesco=%s WHERE id=%s",
+            (nombre, parentesco, id)
+        )
+        conn.commit()
+        cur.close()
+        conn.close()
+        return redirect(url_for("grupos"))
+
+    cur.execute("SELECT id, nombre, parentesco, fecha_nac, domicilio FROM socios WHERE id=%s", (id,))
+    usuario = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    return render_template("formIntegrante.html", usuario=usuario)
+
 
 
 if __name__ == "__main__":
