@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post">
+    Desde:    
+    <input name="desde" id="desde" value=0 size=3>  
+    Hasta:
+    <input name="hasta" id="hasta" value=0 size=3>  
+    <button type="submit" class="btn btn-primary" formaction={{ url_for('pdfPorJubilarse') }}>Buscar</button>
+</form>
+
+{% endblock %}

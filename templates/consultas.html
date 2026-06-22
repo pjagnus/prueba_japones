@@ -1,7 +1,8 @@
+<form>
 {% extends "base.html" %}
 
 {% block content %}
-<button type="submit">Imprimir Padron</button>
-<button type="submit">Imprimir Grupo</button>
-<button type="submit">Socios por Jubilarse</button>
+<button type="submit" class="btn btn-primary" formaction={{ url_for('pdfPadron') }}>Imprimir Padron</button>
+<button type="submit" class="btn btn-primary" formaction={{ url_for('porJubilarse') }}>Socios por Jubilarse</button>
 {% endblock %}
+</form>

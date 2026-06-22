@@ -1,8 +1,11 @@
+<form>
 {% extends "base.html" %}
 
 {% block content %}
-<a href="/nuevoGrupo">Nuevo Grupo</a>
 
+<button type="submit" class="btn btn-primary" formaction={{url_for("nuevoGrupo")}}>Nuevo Grupo</button>
+<br>
+<br>
 {% if grupos != [] %}
     <table class="claseTabla">
     <tbody>
@@ -10,13 +13,11 @@
     {% for dato in grupos %}
     <tr class="altRow">
     <td align="center">&nbsp;{{ dato[0]}}&nbsp;    </td>
-    <td><a href="{{ url_for('integrantes', id = dato[0]) }} "> Integrantes</a></td>
+    <td><button type="submit" class="btn btn-primary" formaction={{ url_for('integrantes', id = dato[0]) }}>Integrantes</button></td>
     </tr>
     {% endfor %}
     </tbody>
     </table>
     {% endif %}		
-
-
-
 {% endblock %}
+</form>

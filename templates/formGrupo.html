@@ -4,8 +4,8 @@
 <form method="post">
     Grupo Nro:
     <input name="id" value="{{prox_grupo if prox_grupo else ''}}">  
-    <button type="submit">Guardar</button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="submit" class="btn btn-primary" formaction={{ url_for('grupos') }}>Volver</button>
 </form>
 
-<a href="/">Volver</a>
 {% endblock %}

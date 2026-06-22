@@ -1,38 +1,38 @@
+<form method="post">
 {% extends "base.html" %}
 
 {% block content %}
-<form method="post">
     <table class="claseTabla2">
         <tbody>
             <tr>
                 <td>Nombre :</td>
-                <td><input name="nombre" value="{{usuario[1] if usuario else ''}}"></td>
+                <td><input name="nombre" value="{{usuario[1] if usuario else ''}}" size=60 maxlength=50></td>
             </tr>		
             <tr>
                 <td>Parentesco :</td>
                 <td>
-                <select class="custom-select d-block w-40" name="parentesco" id="parentesco" >
-                <option value="1" {% if usuario[2] == 1 %}Selected{% endif %}>Jefe</option></option>
-                <option value="2" {% if usuario[2] == 2 %}Selected{% endif %}>Esposa</option></option>
-                <option value="3" {% if usuario[2] == 3 %}Selected{% endif %}>Hijo</option></option>
-                </select>
+                    <select class="custom-select d-block w-40" name="parentesco" id="parentesco" >
+                        <option value="1" {% if usuario[2] == 1 %}Selected{% endif %}>Jefe</option></option>
+                        <option value="2" {% if usuario[2] == 2 %}Selected{% endif %}>Esposa</option></option>
+                        <option value="3" {% if usuario[2] == 3 %}Selected{% endif %}>Hijo</option></option>
+                    </select>
                 </td>
             </tr>
             <tr>
                 <td>F. Nacimiento :</td>
-                <td><input name="fecNac" value="{{usuario[3] if usuario else ''}}"></td>
+                <td><input name="fecNac" type="date" value="{{usuario[3] if usuario else ''}}"></td>
             </tr>
             <tr>
             <td>Domicilio:</td>
-            <td><input name="domicilio" value="{{usuario[4] if usuario else ''}}"></td>
+            <td><input name="domicilio" value="{{usuario[4] if usuario else ''}}" size=60 maxlength=50></td>
             </tr>
         </tbody>
     </table>    
         
     <input name="grupo" value="{{grupo}}" hidden=True>
     <br>
-    <button type="submit">Guardar</button>
-</form>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="submit" class="btn btn-primary" formaction={{ url_for('integrantes', id = grupo) }}>Volver</button>
 
-<a href="/">Volver</a>
 {% endblock %}
+</form>

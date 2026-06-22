@@ -1,3 +1,4 @@
+<form>
 {% extends "base.html" %}
 
 {% block content %}
@@ -6,7 +7,7 @@ Grupo Nro {{grupo}}
 {% if integrantes != [] %}
     <table class="claseTabla">
     <tbody>
-        <tr><td>&nbsp;&nbsp;&nbsp;Nombre y Apellido</td><td>Parentesco</td><td>F. Nac</td><td>domicilio</td><td>Accion</td></tr>		
+        <tr><td>&nbsp;&nbsp;&nbsp;Nombre y Apellido</td><td>Parentesco</td><td>F. Nac</td><td>domicilio</td><td colspan=2>Accion</td></tr>		
         {% for dato in integrantes %}
             <tr class="altRow">
                 <td align="center">&nbsp;{{ dato[1]}}&nbsp;    </td>
@@ -17,19 +18,20 @@ Grupo Nro {{grupo}}
                 </td>
                 <td>{{ dato[3]}} </td>
                 <td>{{ dato[4]}} </td>
-                <td><a href="{{ url_for('modificarIntegrante', id = dato[0]) }} "> Modificar </a></td>
+                <td><button type="submit" class="btn btn-primary" formaction={{ url_for('modificarIntegrante', id = dato[0]) }}>Modificar</button></td>
+                <td><button type="submit" class="btn btn-primary" formaction={{ url_for('eliminarIntegrante', id = dato[0]) }}>Eliminar</button></td>
             </tr>
         {% endfor %}
     </tbody>
     </table>
-{% else %}		
-    <br>    
-    <b>El Grupo todavia no tiene integrantes</b>
-    <br>
-    <br>
 {% endif %}		
 
-<a href="{{ url_for('nuevoIntegrante', id = grupo) }} ">Nuevo Integrante</a>
+<br><br>
+<button type="submit" class="btn btn-primary" formaction={{ url_for('nuevoIntegrante', id = grupo) }}>Nuevo Integrante</button>
+<button type="submit" class="btn btn-primary" formaction={{ url_for('grupos') }}>Volver</button>
 <br>
 
+
+
 {% endblock %}
+</form>
