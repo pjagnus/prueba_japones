@@ -35,7 +35,7 @@ def padron(socios):
         borde = 1
         sin_borde = 0
         salto = 0
-        ancho = 30
+        ancho = 40
         espacio = 40
         pdf=FPDF()
             
@@ -43,14 +43,12 @@ def padron(socios):
         pdf.set_font('Arial','B',12)
 
         #def cell(self, w,h=0,txt='',border=0,ln=0,align='',fill=0,link=''):
-        pdf.cell(1250,alto,'                                                                CLUB JAPONES LA PLATA',border=sin_borde,align='L')
+        pdf.cell(1250,alto,'                                                      CLUB JAPONES LA PLATA',border=sin_borde,align='L')
         pdf.ln(12)
-        pdf.ln(13)
         pdf.set_font('Arial','B',12)
         pdf.cell(1250,alto,'                                                                 Padron',sin_borde,salto,'I')
         pdf.ln(3)
         pdf.cell(200,alto,'__________________________________________________________________________________',sin_borde,salto,'I')
-        pdf.ln(20)
 
         grupo_ant = -1
         
@@ -63,7 +61,7 @@ def padron(socios):
             domicilio = socio[4]
 
             if grupo != grupo_ant:
-                pdf.ln(5)    
+                pdf.ln(8)    
                 pdf.set_font('Arial','B',12)
                 pdf.cell(ancho,6,'Grupo : '  + str(grupo),0, salto)
                 #pdf.cell(ancho,6, str(grupo), 0, align='C')
@@ -85,7 +83,7 @@ def porJubilarse(socios):
         borde = 1
         sin_borde = 0
         salto = 0
-        ancho = 30
+        ancho = 37
         espacio = 40
         pdf=FPDF()
             
@@ -95,22 +93,20 @@ def porJubilarse(socios):
         #def cell(self, w,h=0,txt='',border=0,ln=0,align='',fill=0,link=''):
         pdf.cell(1250,alto,'                                                                CLUB JAPONES LA PLATA',border=sin_borde,align='L')
         pdf.ln(12)
-        pdf.ln(13)
         pdf.set_font('Arial','B',12)
         pdf.cell(1250,alto,'                                                                 Socios por Jubilarse',sin_borde,salto,'I')
-        pdf.ln(3)
-        pdf.cell(200,alto,'__________________________________________________________________________________',sin_borde,salto,'I')
-        pdf.ln(20)
-
+        pdf.ln(13)
         pdf.set_font('Arial','B',10)
         pdf.cell(ancho,6, 'Grupo', 0, align='C')
         pdf.cell(ancho,6, 'Nombre', 0, align='C')
         pdf.cell(ancho,6, 'Parentesco', 0, align='C')
         pdf.cell(ancho,6, 'Edad', 0, align='C')
         pdf.cell(ancho,6, 'Domicilio', 0, align='C')
-        pdf.ln(5)    
-        
+        pdf.ln(2)    
+        pdf.cell(200,alto,'____________________________________________________________________________________________',sin_borde,salto,'I')
+        pdf.ln(10)
         pdf.set_font('Arial','',10)
+
         for socio in socios:
             grupo = socio[0]
             nombre = socio[1]

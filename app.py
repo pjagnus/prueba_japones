@@ -41,7 +41,7 @@ def login():
         
     name = name.lower()        
     #if sqls.val_clave(db, name,clave):
-    if name =='victor' and clave == '1':     
+    if name =='victor' and clave == '1234':     
         session["usuario"] = name
         return redirect("/")
     else:	
@@ -304,8 +304,12 @@ def porJubilarse():
 @app.route("/pdfPorJubilarse",  methods=["GET","POST"])
 def pdfPorJubilarse():
     if request.method == "POST":
-        desde = int(request.form["desde"])
-        hasta = int(request.form["hasta"])
+        try:
+            desde = int(request.form["desde"])
+            hasta = int(request.form["hasta"])
+        except:
+            desde=0
+            hasta = 99
 
     conn = get_conn()
     cur = conn.cursor()
